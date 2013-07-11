@@ -12,17 +12,19 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        overflow-x: hidden;
       }
 
       .viewport {
         position: absolute;
         top: 0;
-        right: 0;
+        right: 0; /* Set to 250px for right menu */
         bottom: 0;
         left: 0;
         overflow: hidden;
       }
-       
+
+      
       .viewport .frame {
         position: absolute;
         width: 200%;
@@ -85,6 +87,7 @@
         width: 50%;
         height: 100%;
         overflow: hidden;
+        /* overflow-y: scroll; */ /* Permit scroll, IE9+ */
       }
 
      .navbar .navbar-inner .btn-navbar {
@@ -96,9 +99,64 @@
         margin: auto 15px;
       }
 
+      /* Right menu */
+
+      button.right {
+        display: block;
+        float: right !important;
+      }
+
+      .viewport, #right-menu {
+        -webkit-transition: all 0.35s ease;
+        -moz-transition: all 0.35s ease;
+        -o-transition: all 0.35s ease;
+        transition: all 0.35s ease;
+      }
+     
+      #right-menu {
+        position: absolute;
+        width: 250px;
+        top: 0;
+        right: -250px; /* Set to 0 to slide left */
+        bottom: 0;
+        background-color: #000;
+        color: #fff;
+      }
+
+      #right-menu.right-slide {
+        right: 0;  
+      }
+
+      .viewport.right-slide {
+        right: 250px;
+        left: -250px;
+      }
+ 
     </style>
+
+    <script>
+      $(function() {
+        var $rbutton = $( '#right-menu-button' );
+        $rbutton.click(function() {
+          var $viewport = $( '.viewport' );
+          var $rmenu = $( '#right-menu' );
+          var slideClass = 'right-slide';
+          if ( !$viewport.hasClass( slideClass ) ) {
+            $viewport.addClass(slideClass);
+            $rmenu.addClass(slideClass);
+          } else {
+            $viewport.removeClass(slideClass);
+            $rmenu.removeClass(slideClass);
+          }
+        });
+      });
+    </script>
+
   </head>
   <body>
+    <div id="right-menu">
+      <p>Foo</p>
+    </div>
     <div class="viewport">
       <div class="frame">
         <div id="menu" class="menu nav-collapse collapse width">
@@ -117,6 +175,11 @@
         <div class="view">
           <div class="navbar navbar-inverse">
             <div class="navbar-inner">
+              <button type="button" class="btn btn-navbar right" id="right-menu-button">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
               <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#menu">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
